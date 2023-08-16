@@ -9,11 +9,26 @@ const list = reactive([
     name: 'Second List',
   }
 ])
+
+//ref input 
+const nameInput = ref('')
+
+
+//arrow function 
+const addList = (params) =>{
+    list.push({name:params})
+    nameInput.value = ''
+}
+
 </script>
+
+
 
 <template>
   <h1>Test</h1>
 
+
+  <input type="text" v-model="nameInput" name="name" @keyup.enter = "addList(nameInput)">
   <ol>
     <template v-for="item in list" v-bind:key="item">
       <li>{{ item.name }}</li>
