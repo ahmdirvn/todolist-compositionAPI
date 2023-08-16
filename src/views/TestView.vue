@@ -16,17 +16,36 @@ const nameInput = ref('')
 
 
 <template>
-  <h1>Test</h1>
+ <div class="container">
 
-  <!-- add event handler listener when keyup enter -->
-  <!-- method handler with addList function -->
-  <!-- event modifier .enter -->
+<h1>Test</h1>
 
 
-  <input type="text" v-model="nameInput" name="name" @keyup.enter = "store.addList(nameInput) ; nameInput =''">
-  <ol>
-    <template v-for="item in store.getList" v-bind:key="item">
-      <li>{{ item.name }}</li>
-    </template>
-  </ol>
+<input
+  class="input"
+  v-model="nameInput"
+  type="text"
+  name="name"
+  @keyup.enter="store.addList(nameInput); nameInput = ''"
+/>
+
+<h4>Tasks</h4>
+<ol class="list">
+  <template v-for="item in store.getList" v-bind:key="item">
+    <li class="underline">{{ item.name }}</li>
+  </template>
+</ol>
+</div>
 </template>
+
+<style scoped lang="scss">
+.input {
+margin-block-end: 2rem;
+}
+.list {
+padding-block: 1rem;
+& > .underline {
+text-decoration: underline;
+}
+}
+</style>
