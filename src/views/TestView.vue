@@ -1,12 +1,14 @@
 <script setup>
-const list = [
+import {reactive,ref } from 'vue'
+
+const list = reactive([
   {
     name: 'First List',
   },
   {
     name: 'Second List',
   }
-];
+])
 </script>
 
 <template>
