@@ -8,7 +8,8 @@ const store = useListStore();
 //initial input or default input 
 const defaultInput ={
   name:'',
-  hobby:''
+  hobby:'',
+  description:'',
 }
 
 
@@ -47,6 +48,7 @@ function onSubmit(){
 <form class="form" @submit.prevent = "onSubmit">
   <BaseInput  class="input" v-model="input.name" name="name" placeholder="Masukan Namamu"/>
   <BaseInput  class="input" v-model="input.hobby" name="hobby" placeholder="Masukan Hobbymu"/>
+  <BaseInput  class="input" v-model="input.description" name="description" placeholder="Masukan Deskripsi"/>
   <button type="submit"> submit </button>
 </form>
 
@@ -54,7 +56,8 @@ function onSubmit(){
 <ol class="list">
   <!-- show the result  -->
   <template v-for="(item,index) in store.getList" :key="index">
-    <li class="underline">{{ item.name }}({{ item.hobby }}) - {{ index }}</li>
+    <!-- null chainning and ternary oprator -->
+    <li class="underline">{{ item.name }}({{ item.hobby }}) - {{ !!item?.description ? item.description : 'description?' }}</li>
   </template>
 </ol>
 </div>

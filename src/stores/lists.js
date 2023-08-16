@@ -6,12 +6,15 @@ export const useListStore = defineStore('list', () => {
     const list = reactive([
         {
             name: 'Irvan',
-            hobby: 'Futsal'
+            hobby: 'Futsal',
+            description: 'Every sunday'
         },
         {
             name: 'Maida',
-            hobby: 'Masak'
-        }
+            hobby: 'Masak',
+            description: 'Every sunday'
+        },
+
     ])
 
     // getter
