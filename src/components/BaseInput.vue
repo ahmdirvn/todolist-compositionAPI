@@ -2,10 +2,7 @@
 //komunikasi dari parent ke children (props)
 
 defineProps({
-  id:{
-    type : String,
-    default :'id'
-  },
+
   name:{
     type: String,
     default : 'name'
@@ -17,6 +14,11 @@ defineProps({
   modelValue:{
     type:String,
     default:''
+  },
+  type:{
+    type : String,
+    default :'text',
+    validator : (value) => ['text','password'].includes(value)
   },
   required :{
     type:Boolean,
@@ -32,10 +34,10 @@ defineEmits(['update:modelValue'])
 
 
 <template>
-   <label for="id"> {{ name }}</label>
+   <label :for="name"> {{ name }}</label>
    <input 
-   type="text"
-   id="id"
+   :type="type"
+   :id="name"
    class="input"
    :name="name"
    :placeholder="placeholder"

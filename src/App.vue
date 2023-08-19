@@ -1,12 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import {useAuthStore} from '@/store/auth'
+import { d$auth } from '@store/auth'
 import {computed} from 'vue';
 
 
-const Auth = useAuthStore()
-const username = computed(() => Auth.getUsername)
+const auth = d$auth()
+auth.setUser()
+const username = computed(() => auth.g$user.id)
 </script>
 
 <template>
@@ -20,9 +21,9 @@ const username = computed(() => Auth.getUsername)
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <!-- contoh progammatic navigation -->
-        <RouterLink :to="{name: 'Authenticated',params: {id: username ?? ''}}" ></RouterLink>
+        <RouterLink :to="{name: 'Authenticated',params: {id: username ?? ''}}" >Profile</RouterLink>
         <RouterLink :to="{ name: 'test' }">Test</RouterLink>
-        <RouterLink to="404">404</RouterLink>
+        <RouterLink to="/404">404</RouterLink>
       </nav>
     </div>
   </header>

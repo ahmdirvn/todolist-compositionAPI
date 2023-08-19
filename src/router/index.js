@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { useAuthStore } from '@/store/auth'
+import { d$auth } from '@store/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,14 +58,16 @@ const router = createRouter({
 
 // navigasi untuk tamu
 
-router.boforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   //mendapatkan state auth
-  const loggedIn = useAuthStore().isLoggedIn
+  const loggedIn = d$auth().isLoggedIn
   //jika target route membutuhkan auth & no logged in user
   // maka redirect ke login 
 
   if (to.meta.auth && !loggedIn) {
     next({ name: 'Login' })
+  } else if (to.path === '/profile' && loggedIn) {
+    next({ name: 'Authenticated', params: { id: d$auth().g$user.id } })
   } else {
     //lalu proses
     next()
