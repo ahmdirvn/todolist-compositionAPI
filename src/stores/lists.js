@@ -19,6 +19,8 @@ export const useListStore = defineStore('list', () => {
 
     // getter
     const getList = computed(() => list)
+
+    //getter with params
     const getDetail = (index) => computed(() => list[index])
 
     // action

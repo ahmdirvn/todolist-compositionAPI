@@ -37,7 +37,9 @@ function onSubmit(){
     store.addList(data)
 
   }else {
+    
     store.editList(editing.value, data)
+    
   }
 
   //reset form
@@ -54,8 +56,12 @@ function detailList(index){
 function toggleComplete(index){
   const detail = store.getDetail(index)
   store.editList(index,{
+        //pass all entries in detail object
     ...detail.value,
+    //take completed value then toogle it
     completed: !detail.value.completed
+
+
   })
 }
 </script>
