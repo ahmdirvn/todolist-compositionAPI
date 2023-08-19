@@ -16,17 +16,38 @@ const defaultInput ={
 //ref input using default input
 const input = ref({ ...defaultInput})
 
+//ref untuk mengambil data edit berdasarkan kondisi tombol edit
+const editing = ref(false)
+
+
+//mereset data (reset form)
+const resetForm = () =>{
+  Object.assign(input.value, defaultInput)
+  editing.value = false
+}
 //function untuk mengirimkan form
 function onSubmit(){
   //event prevent default
-  console.log({...input.value})
+  const data = ({...input.value})
 
 
   //add list fia store
-  store.addList({ ...input.value})
+  if(editing.value === false){
+    store.addList(data)
+
+  }else {
+    store.editList(editing.value, data)
+  }
 
   //reset form
-  Object.assign(input,ref({...defaultInput}))
+  resetForm()
+}
+
+function detailList(index){
+  const detail = store.getDetail(index);
+  input.value = {...detail.value}
+
+  editing.value = index
 }
 </script>
 
@@ -35,7 +56,7 @@ function onSubmit(){
 <template>
  <div class="container">
 
-<h1>Test</h1>
+<h1>Test {{ $route.params?.id }}</h1>
 <!-- <input
   class="input"
   v-model="nameInput"
@@ -45,10 +66,11 @@ function onSubmit(){
 /> -->
 
 <!-- event modifier, enter , prevent  -->
-<form class="form" @submit.prevent = "onSubmit">
-  <BaseInput  class="input" v-model="input.name" name="name" placeholder="Masukan Namamu" required/>
-  <BaseInput  class="input" v-model="input.hobby" name="hobby" placeholder="Masukan Hobbymu" required/>
-  <BaseInput  class="input" v-model="input.description" name="description" placeholder="Masukan Deskripsi " required/>
+<form class="form" @submit.prevent = "onSubmit" @reset = "resetForm">
+  <BaseInput  class="input" v-model="input.name" id="name" name="name" placeholder="Masukan Namamu" required/>
+  <BaseInput  class="input" v-model="input.hobby" id="hobby" name="hobby" placeholder="Masukan Hobbymu" required/>
+  <BaseInput  class="input" v-model="input.description" id="description" name="description" placeholder="Masukan Deskripsi " required/>
+  <button type="reset" style="margin-right: 15px;">Cancel</button>
   <button type="submit"> submit </button>
 </form>
 
@@ -58,27 +80,41 @@ function onSubmit(){
   <template v-for="(item,index) in store.getList" :key="index">
     <!-- null chainning and ternary oprator -->
     <li class="underline">
-      <button class="red" @click="()=> store.removeList(index)">&times;</button>
-      {{ item.name }}({{ item.hobby }}) - {{ !!item?.description ? item.description : 'description?' }}</li>
+      <span>
+        <button class="red" @click="()=> store.removeList(index)" :disabled="editing !== false">&times;</button> 
+      <button class="orange" @click="() => detailList(index)" :disabled="editing !== false">&#9998;</button>
+      </span>
+     
+          {{ item.name }} ({{ item.hobby }}) -
+          {{ !!item?.description ? item.description : 'description?' }}</li>
   </template>
 </ol>
 </div>
 </template>
 
 <style scoped lang="scss">
-
-.form{
-  
+.form {
+  margin-block-end: 2rem;
+}
 .list {
-padding-block: 1rem;
-& > .underline {
-text-decoration: underline;
-}
+  /* rem, em, vh, vw */
+  padding-block: 1rem;
+  & > .underline {
+    text-decoration: underline;
+  }
 }
 
-button.red{
-  color:red;
-}
+button {
+  &.red {
+    color: red;
+    margin:10px ;
+    
+  }
+  &.orange {
+    color: orange;
+  }
+
+
 }
 
 </style>
