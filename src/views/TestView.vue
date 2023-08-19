@@ -91,7 +91,7 @@ function toggleComplete(index){
   <!-- show the result  -->
   <template v-for="(item,index) in store.getList" :key="index">
     <!-- null chainning and ternary oprator -->
-    <li class="{strike: item?.completed}" @dblclick="toggleComplete(index)">
+    <li v-bind:class="{strike: item?.completed}" @dblclick="toggleComplete(index)">
       <span>
         <button class="red" @click="()=> store.removeList(index)" :disabled="editing !== false">&times;</button> 
       <button class="orange" @click="() => detailList(index)" :disabled="editing !== false">&#9998;</button>

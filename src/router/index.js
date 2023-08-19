@@ -19,16 +19,33 @@ const router = createRouter({
     },
     {
 
-      path: '/test/:id?',
+      path: '/test',
       name: 'test',
       component: () => import('@/views/TestView.vue')
     },
+    //nested routed
+    {
+      path: '/profile',
+      children: [
+        {
+          path: '',
+          name: 'Login',
+          component: () => import('@/views/Profile/LoginView.vue')
+        },
+        {
+          path: 'detail/:id',
+          name: 'Authenticated',
+          component: () => import('@/views/Profile/AuthenticatedView.vue')
+        }
+      ]
+    },
 
     {
-      path: '/header',
-      name: 'header',
-      component: () => import('@/views/HeaderView.vue')
-    }
+      path: '/:pathMatch(.*)*',
+      name: 'Match All',
+      component: () => import('@/views/NotFoundView.vue')
+    },
+
 
   ]
 })
