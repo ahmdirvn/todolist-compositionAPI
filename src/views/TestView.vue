@@ -10,6 +10,7 @@ const defaultInput ={
   name:'',
   hobby:'',
   description:'',
+  completed:false
 }
 
 
@@ -49,6 +50,14 @@ function detailList(index){
 
   editing.value = index
 }
+
+function toggleComplete(index){
+  const detail = store.getDetail(index)
+  store.editList(index,{
+    ...detail.value,
+    completed: !detail.value.completed
+  })
+}
 </script>
 
 
@@ -70,6 +79,9 @@ function detailList(index){
   <BaseInput  class="input" v-model="input.name" id="name" name="name" placeholder="Masukan Namamu" required/>
   <BaseInput  class="input" v-model="input.hobby" id="hobby" name="hobby" placeholder="Masukan Hobbymu" required/>
   <BaseInput  class="input" v-model="input.description" id="description" name="description" placeholder="Masukan Deskripsi " required/>
+  <div class="checkbox">
+    <input type="checkbox" v-model= "input.completed" name="completed" id="completed"> completed
+  </div>
   <button type="reset" style="margin-right: 15px;">Cancel</button>
   <button type="submit"> submit </button>
 </form>
@@ -79,7 +91,7 @@ function detailList(index){
   <!-- show the result  -->
   <template v-for="(item,index) in store.getList" :key="index">
     <!-- null chainning and ternary oprator -->
-    <li class="underline">
+    <li class="{strike: item?.completed}" @dblclick="toggleComplete(index)">
       <span>
         <button class="red" @click="()=> store.removeList(index)" :disabled="editing !== false">&times;</button> 
       <button class="orange" @click="() => detailList(index)" :disabled="editing !== false">&#9998;</button>
@@ -99,8 +111,8 @@ function detailList(index){
 .list {
   /* rem, em, vh, vw */
   padding-block: 1rem;
-  & > .underline {
-    text-decoration: underline;
+  & > .strike {
+    text-decoration: line-through;
   }
 }
 
@@ -113,7 +125,9 @@ button {
   &.orange {
     color: orange;
   }
-
+.checkbox{
+  width: 100%;
+}
 
 }
 
