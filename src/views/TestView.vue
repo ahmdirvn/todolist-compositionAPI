@@ -83,7 +83,7 @@ function toggleComplete(index){
     <input type="checkbox" v-model= "input.completed" name="completed" id="completed"> completed
   </div>
   <button type="reset" style="margin-right: 15px;">Cancel</button>
-  <button type="submit"> submit </button>
+  <button type="submit"> {{ editing !== false ? 'save' : 'submit' }} </button>
 </form>
 
 <h4>Tasks</h4>
